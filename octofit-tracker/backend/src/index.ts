@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { getApiBaseUrl, API_PORT } from './config/server.js';
+import { getApiBaseUrl, API_PORT } from './server.js';
 import './config/database.js';
 import apiRouter from './routes/api.js';
 
