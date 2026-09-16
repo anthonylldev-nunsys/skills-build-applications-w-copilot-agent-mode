@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react'
 import { fetchResource } from '../api'
 
+// VITE_CODESPACE_NAME must be defined (for example in `.env.local`).
+// Falls back to localhost when unset, avoiding `https://undefined-8000...` URLs.
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME
+const USERS_API_URL = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/users/`
+  : 'http://localhost:8000/api/users/'
+
 function Users() {
   const [users, setUsers] = useState([])
   const [error, setError] = useState(null)
@@ -9,7 +16,7 @@ function Users() {
   useEffect(() => {
     let isMounted = true
 
-    fetchResource('users')
+    fetchResource(USERS_API_URL)
       .then((items) => {
         if (isMounted) setUsers(items)
       })

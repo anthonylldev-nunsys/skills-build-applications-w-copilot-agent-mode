@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react'
 import { fetchResource } from '../api'
 
+// VITE_CODESPACE_NAME must be defined (for example in `.env.local`).
+// Falls back to localhost when unset, avoiding `https://undefined-8000...` URLs.
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME
+const WORKOUTS_API_URL = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/workouts/`
+  : 'http://localhost:8000/api/workouts/'
+
 function Workouts() {
   const [workouts, setWorkouts] = useState([])
   const [error, setError] = useState(null)
@@ -9,7 +16,7 @@ function Workouts() {
   useEffect(() => {
     let isMounted = true
 
-    fetchResource('workouts')
+    fetchResource(WORKOUTS_API_URL)
       .then((items) => {
         if (isMounted) setWorkouts(items)
       })
